@@ -31,8 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   bool _isPasswordVisible = false;
 
-  // For Android emulator use 10.0.2.2 — for physical device use your computer's local IP
-  static const String _backendUrl = 'http://10.0.2.2:3000';
+  static const String _backendUrl = 'http://79.143.179.209:3000';
 
   final _authService = FirebaseAuthService();
   final _messagingService = MessagingService();
