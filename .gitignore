@@ -27,3 +27,5 @@ notification_backend/serviceAccountKey.json
 *.zip
 *.aab
 *.apk
+
+notification_backend/serviceAccountKey.json.json
