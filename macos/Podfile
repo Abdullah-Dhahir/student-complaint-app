@@ -1,0 +1,65 @@
+platform :osx, '10.14'
+
+# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+def flutter_root
+  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'ephemeral', 'Flutter-Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated_xcode_build_settings_path)
+    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure \"flutter pub get\" is executed first"
+  end
+
+  File.foreach(generated_xcode_build_settings_path) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Flutter-Generated.xcconfig, then run \"flutter pub get\""
+end
+
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+flutter_macos_podfile_setup
+
+target 'Runner' do
+  use_frameworks!
+
+  flutter_install_all_macos_pods File.dirname(File.realpath(__FILE__))
+  target 'RunnerTests' do
+    inherit! :search_paths
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_macos_build_settings(target)
+
+    target.build_configurations.each do |config|
+      # Update deployment target to minimum supported version for all pods
+      config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.13'
+
+      # Fix for gRPC compilation error with -G flag on Apple Silicon
+      if target.name.include?('gRPC') || target.name.include?('BoringSSL') || target.name.include?('abseil')
+        # Clear any problematic compiler flags
+        config.build_settings.delete('COMPILER_FLAGS')
+        config.build_settings['GCC_OPTIMIZATION_LEVEL'] = '0'
+
+        # Remove -G flag from all compiler flag settings
+        ['OTHER_CFLAGS', 'OTHER_CPLUSPLUSFLAGS', 'WARNING_CFLAGS'].each do |key|
+          if config.build_settings[key]
+            if config.build_settings[key].is_a?(String)
+              config.build_settings[key] = config.build_settings[key].gsub(/-G\s*/, '')
+            elsif config.build_settings[key].is_a?(Array)
+              config.build_settings[key] = config.build_settings[key].reject { |flag| flag.strip == '-G' }
+            end
+          end
+        end
+      end
+    end
+  end
+end

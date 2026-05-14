@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "594991530970",
+    "project_id": "student-complaint-app-36d8e",
+    "storage_bucket": "student-complaint-app-36d8e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594991530970:android:0fb84e5102cd1a5a3bb6e3",
+        "android_client_info": {
+          "package_name": "iq.edu.tiu.complaints"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz4DJGqqKMZZ3hXYejil0EC9Y4_vAR1pw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

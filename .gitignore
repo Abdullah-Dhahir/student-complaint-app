@@ -1,0 +1,29 @@
+﻿# Flutter
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+
+# Android
+android/.gradle/
+android/local.properties
+android/key.properties
+android/upload-keystore.jks
+*.keystore
+*.jks
+
+# Node backend
+notification_backend/node_modules/
+notification_backend/.env
+notification_backend/serviceAccountKey.json
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Misc
+*.zip
+*.aab
+*.apk
